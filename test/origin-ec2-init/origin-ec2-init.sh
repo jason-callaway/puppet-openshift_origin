@@ -79,5 +79,4 @@ cd /var/www/openshift/console; bundle --local
 ## Fix this later -- EC2 doesn't really need a host-based
 ## firewall since the security groups are sufficient
 ## (if configured correctly).
-systemctl stop iptables.service
-chkconfig off iptables.service
+systemctl disable iptables.service
