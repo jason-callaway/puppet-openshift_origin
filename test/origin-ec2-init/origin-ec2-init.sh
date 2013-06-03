@@ -64,8 +64,10 @@ EOF
 
 puppet apply --verbose /root/configure_origin.pp
 
-## Maintain the EC2 DNS server line.  Need to fix this
-## to work for more than us-east-1
+## TODO: This sucks. I need to figure out how to make this change
+## reboot persistent.  There's probably a dhcp client setting I
+## can tweak.  In the mean time, the nameserver line and the 
+## searchdomain line will need to be fixed after each reboot.
 echo "nameserver 172.16.0.23" >> /etc/resolv.conf
 cp /etc/resolv.conf /root/
 
@@ -79,4 +81,5 @@ cd /var/www/openshift/console; bundle --local
 ## Fix this later -- EC2 doesn't really need a host-based
 ## firewall since the security groups are sufficient
 ## (if configured correctly).
+systemctl stop iptables.service
 systemctl disable iptables.service
