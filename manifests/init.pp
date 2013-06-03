@@ -206,10 +206,6 @@ class openshift_origin (
     fail 'Facter version needs to be updated to at least 1.6.17'
   }
 
-  if $::selinux_current_mode == 'disabled' {
-    fail 'SELinux is required for OpenShift.'
-  }
-
   $service   = $::operatingsystem ? {
     'Fedora' => '/usr/sbin/service',
     default  => '/sbin/service',
@@ -295,7 +291,7 @@ class openshift_origin (
 
   if $create_origin_yum_repos == true {
     $mirror_base_url = $::operatingsystem ? {
-      'Fedora' => "https://mirror.openshift.com/pub/openshift-origin/fedora-${::operatingsystemrelease}/${::architecture}/",
+      'Fedora' => "https://mirror.openshift.com/pub/openshift-origin/release/1/fedora-${::operatingsystemrelease}/dependancies/${::architecture}/",
       'Centos' => "https://mirror.openshift.com/pub/openshift-origin/rhel-6/${::architecture}/",
       default  => "https://mirror.openshift.com/pub/openshift-origin/rhel-6/${::architecture}/",
     }
@@ -311,7 +307,7 @@ class openshift_origin (
       'nightlies' : {
         case $::operatingsystem {
           'Fedora' : {
-            $install_repo_path = "https://mirror.openshift.com/pub/openshift-origin/nightly/fedora-${::operatingsystemrelease}/latest/${::architecture}/"
+            $install_repo_path = "https://mirror.openshift.com/pub/openshift-origin/release/1/fedora-${::operatingsystemrelease}/packages/${::architecture}/"
           }
           default  : {
             $install_repo_path = "https://mirror.openshift.com/pub/openshift-origin/nightly/rhel-6/latest/${::architecture}/"
