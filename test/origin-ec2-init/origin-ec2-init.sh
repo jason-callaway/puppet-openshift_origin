@@ -6,7 +6,7 @@
 #pkgrepo="https://mirror.openshift.com/pub/openshift-origin/release/1/fedora-18/packages/x86_64/"
 
 ipaddress=`ifconfig eth0 | grep inet\ | awk '{print $2}'`
-domain=jasoncallaway.com
+domain=example.com
 hostname=broker.${domain}
 
 yum install -y git bind puppet facter tar vim
