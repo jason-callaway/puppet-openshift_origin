@@ -6,7 +6,7 @@
 #pkgrepo="https://mirror.openshift.com/pub/openshift-origin/release/1/fedora-18/packages/x86_64/"
 
 ipaddress=`ifconfig eth0 | grep inet\ | awk '{print $2}'`
-domain=example.com
+domain=jasoncallaway.com
 hostname=broker.${domain}
 
 yum install -y git bind puppet facter tar vim
@@ -64,12 +64,11 @@ EOF
 
 puppet apply --verbose /root/configure_origin.pp
 
-## TODO: This sucks. I need to figure out how to make this change
-## reboot persistent.  There's probably a dhcp client setting I
-## can tweak.  In the mean time, the nameserver line and the 
-## searchdomain line will need to be fixed after each reboot.
-echo "nameserver 172.16.0.23" >> /etc/resolv.conf
-cp /etc/resolv.conf /root/
+## Testing DHCP DNS tweaks
+echo "DNS1=${ipaddress}"
+echo "DNS2=172.16.0.23"
+echo "DOMAIN=compute-1.internal jasoncallaway.com com"
+systemctl restart network.service
 
 ## Install some missing gems that didn't seem to get 
 ## caught by puppet.  This shouldn't live here, puppet
